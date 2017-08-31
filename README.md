@@ -3,16 +3,16 @@ this repository is only used for our team to publish blog. if you want to be a m
 
 ## folder introduction
 
-+---tech          //restore all the technical blogs   
-|&get;|-- 2017-08-31-the-blog-title.md    //**please follow the title partten to name your blog**   
-|   |-- ... 
-|
-+---english         //restore the english language practice blogs   
-|   |-- 2017-08-31-the-title.md   
-|
-+---others         //restore the none technical blogs   
-    |-- 2017-08-31-the-title.md   
-    
+folders:
+-------
+ * tech          //restore all the technical blogs   
+ * english       //restore the english language practice blogs   
+ * others        //restore the none technical blogs   
+ 
+files
+------
+ 2017-08-31-the-blog-title.md    //**please follow the title partten to name your blog** 
+ 
 ## how to contribute
 
 please follow the github pull request flow[1] to contribute your blogs.
