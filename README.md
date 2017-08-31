@@ -3,9 +3,8 @@ this repository is only used for our team to publish blog. if you want to be a m
 
 ## folder introduction
 
--
 +---tech          //restore all the technical blogs   
-|   |-- 2017-08-31-the-blog-title.md    //**please follow the title partten to name your blog**   
+|&nbsp;$nbsp;  |-- 2017-08-31-the-blog-title.md    //**please follow the title partten to name your blog**   
 |   |-- ... 
 |
 +---english         //restore the english language practice blogs   
