@@ -8,7 +8,7 @@ folders:
  * english       //restore the english language practice blogs   
  * others        //restore the none technical blogs   
  
-files:
+files:    
  2017-08-31-the-blog-title.md    //**please follow the title partten to name your blog** 
  
 ## how to contribute
