@@ -4,13 +4,11 @@ this repository is only used for our team to publish blog. if you want to be a m
 ## folder introduction
 
 folders:
--------
  * tech          //restore all the technical blogs   
  * english       //restore the english language practice blogs   
  * others        //restore the none technical blogs   
  
-files
-------
+files:
  2017-08-31-the-blog-title.md    //**please follow the title partten to name your blog** 
  
 ## how to contribute
