@@ -1,20 +1,19 @@
-﻿# Running the kubernetes on OpenStack step by step
+﻿# Running the Kubernetes on OpenStack step by step
 
-标签： kubernetes
 
----
+
 
 ## Introduction
 
 OpenStack is an open source software for creating private and public clouds. The main purpose of OpenStack is providing the Infrastructure as a Service (IaaS). There are a collection of projects in OpenStack that as a whole provide a complete IaaS solution. 
 
-Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. The nodes(instances) provided by OpenStack Nova can be used for running the kubernetes. And the volumes provided by OpenStack Cinder also can be used by the pods in the kubernetes. 
+Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications. The nodes(instances) provided by OpenStack Nova can be used for running the Kubernetes. And the volumes provided by OpenStack Cinder also can be used by the pods in the Kubernetes.
 
-This guide will take you through the steps of deploying Kubernetes to OpenStack manually. Firstly we will install a devstack environment, and then create a Nova instance in this devstack. We will compile and install a single node kubernetes environment in this Nova instance.
+This guide will take you through the steps of deploying Kubernetes on OpenStack manually. Firstly we will install a devstack environment, and then create a VM instance via Nova in this devstack. We will compile and install a single node Kubernetes environment in this VM instance.
 
 ## Install a devstack environment
 
-DevStack is a series of extensible scripts used to quickly bring up a complete OpenStack environment based on the latest versions of everything from git master. It is used interactively as a development environment and as the basis for much of the OpenStack project’s functional testing. So here we will use devstack to install a complete OpenStack environment for running the kubernetes.
+The devstack is a series of extensible scripts used to quickly bring up a complete OpenStack environment based on the latest versions of everything from git master. It is used interactively as a development environment and as the basis for much of the OpenStack project’s functional testing. So here we will use devstack to install a complete OpenStack environment for running the Kubernetes.
 
 
 ### 1 The environment
@@ -86,7 +85,7 @@ enable_service s-proxy s-object s-container s-account
 ```
 The project karbor is a data protection orchestration as a service in OpenStack. It will be installed in this devstack. 
 
-The OpenStack Cloud Provider will be used in this kubernetes environment. In this usecase, the n-api-meta and q-meta services must be enabled. The kubernetes in nova instance will use the nova metadata api to get the detail information about this instance. This detail information will be used in the initialization phase of the openstack cloud provider when the kubernetes service is starting.
+The OpenStack Cloud Provider will be used in this Kubernetes environment. In this use case, the n-api-meta and q-meta services must be enabled. The Kubernetes in nova instance will use the nova metadata api to get the detailed information about this instance. This detailed information will be used in the initialization phase of the openstack cloud provider when the Kubernetes service is starting.
 
 **The Nova Metadata Service**
 OpenStack provides a metadata service for cloud instances. This metadata is useful for accessing instance-specific information from within the instance. The primary purpose of this capability is to apply customizations to the instance during boot time if cloud-init or cloudbase-init is configured on your Linux or Windows image, respectively. However, instance metadata can be accessed at any time after the instance boots by the user or by applications running on the instance. 
@@ -103,7 +102,7 @@ Start the install:
 ```
 
 ###  4 Configure the Network
-There are lots of special requirements(hardware, software, network, performance, etc) about the environment for the kubernetes running on the openstack nova instance. The network of this nova instance must be able to access the public network. We need the public network to install the single node kubernetes and its dependencies in this instance. 
+There are lots of special requirements(hardware, software, network, performance, etc) about the environment for the Kubernetes running on the openstack nova instance. The network of this nova instance must be able to access the public network. We need the public network to install the single node Kubernetes and its dependencies in this instance.
 To see more detail information about how to configure the Neutron network for the virtual machines accessing the public network, we can read this article: [The configuration of OpenStack Neutron](http://www.cnblogs.com/edisonxiang/p/7365627.html).
 
 Import envionment variables for OpenStack clients:
@@ -198,8 +197,8 @@ root@ubuntu:/opt# neutron subnet-show b2079351-efdc-4630-81db-fa6b31187e53
 +-------------------+----------------------------------------------------+
 
 ```
-###  5 Creating a Nova instance for running the single node kubernetes
-This instance needs more than 4GB of memory for compiling the source code of the kubernetes.
+###  5 Creating a Nova instance for running the single node Kubernetes
+This instance needs more than 4GB of memory for compiling the source code of the Kubernetes.
 
 Create the flavor for the instance:
 ```bash
@@ -350,7 +349,7 @@ security-groups
 ubuntu@ubuntu:~$
 ```
 
-## Install a single node kubernetes on Nova instance
+## Install a single node Kubernetes on VM instance via Nova
 
 Requirements:
 
@@ -380,13 +379,13 @@ sudo apt-get install gcc
 root@ubuntu:/#apt-get update
 root@ubuntu:/#apt-get upgrade
 
-root@ubuntu:/#apt-get install docker.io
+root@ubuntu:/#wget -qO- https://get.docker.com | sh
 root@ubuntu:/# docker --version
 Docker version 1.12.6, build 78d1802
 ```
 
 ###  2 Install go:
-Use the default 1.8.3 version of go to compile the master branch of the kubernetes, we will get an error about 'out of memory'. So we will install a 1.9 version of go in our Nova instance.
+Use the default 1.8.3 version of go to compile the master branch of the Kubernetes, we will get an error about 'out of memory'. So we will install a 1.9 version of go in our Nova instance.
 
 Now download the Go language binary archive file using the following link. To find and download latest version available or 64 bit version go to the official [download page](https://golang.org/dl/).
 ```bash
@@ -443,7 +442,7 @@ Go Version: go1.8.3
 Go OS/Arch: linux/amd64
 ```
 
-###  3 Install and compile the kubernetes:
+###  3 Install and compile the Kubernetes:
 ```bash
 root@ubuntu:/opt/kube# git clone https://github.com/kubernetes/kubernetes.git
 
@@ -471,7 +470,7 @@ drwxr-xr-x 5 root root     4096 Aug 25 07:47 ../
 
 ```
 
-###  4 configure and run the kubernetes:
+###  4 configure and run the Kubernetes:
 
 setup cloud provider environment variables
 ```bash
