@@ -38,7 +38,7 @@ Include all the configs and templates and implement the interface of util.pkg.vf
 
 ### class diagram
 
-![](/images/2017-11-03-ApplyClusterCmd-fullfill-cluster/upup.fi.loader.svg)
+![](../images/2017-11-03-ApplyClusterCmd-fullfill-cluster/upup.fi.loader.svg)
 
 ### TreeWakler
 
