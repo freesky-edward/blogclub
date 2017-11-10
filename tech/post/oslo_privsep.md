@@ -1,4 +1,4 @@
-# Oslo.privsep Introduce
+# Oslo.privsep Introduction
 
 This library helps applications perform actions which require more or less privileges than they were started with in a safe, easy to code and easy to use manner.
 
