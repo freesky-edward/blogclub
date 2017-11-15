@@ -11,25 +11,25 @@ commands.
 
 ### Setup
 
-1. Rootwrap always runs in a seperated process as a root user and only
+1. Rootwrap always runs in a separated process as a root user and only
 exposes the command line for any service who wants to communicate with.
-It's esay to find the rootwraps' entrance in the *setup.cfg*:
+It's easy to find the rootwraps' entrance in the *setup.cfg*:
 ```
 [entry_points]
     cinder-rootwrap = oslo_rootwrap.cmd:main
 ```
 
-2. In the service itself, once we need to execute priveleged commands we have to ask rootwrap to perform and return. For instance, when Cinder
-needs to setup a target in it's lvm driver, this is one of the commands
-that needs privelege:
+2. In the service itself, once we need to execute privileged commands we have to ask rootwrap to perform and return. For instance, when Cinder
+needs to setup a target in its lvm driver, this is one of the commands
+that needs privileges:
 ```
 tgtadm --lld iscsi --op show --mode target
 ```
-After appending the root helper's prefix the command will change into:
+After appending the root helper's prefix the command will be changed into:
 ```
 sudo cinder-rootwrap [rootwrap_config_file] tgtadm --lld iscsi --op....
 ```
-The ``rootwrap_config_file`` is used for the rootwrap's generic config and filter invalid commands.
+The ``rootwrap_config_file`` is used for the rootwrap's generic config and filtering invalid commands.
 ```
 [DEFAULT]
 #Comma-separated list of directories containing filter definition files
@@ -45,7 +45,7 @@ syslog_log_level=ERROR
 ```
 ### Filter
 
-Rootwrap added command filter support in case of unexpected or unauthorized command are been used, it would deny the commands that don't match any filter. Some of the filters are:
+Rootwrap added command filter support in case of unexpected or unauthorized command being used, it would deny the commands that don't match any filter. Some of the filters are:
 
 1. **CommandFilter**: Basic filter that only checks the executable called
 ```
@@ -77,7 +77,7 @@ want to execute the previous command.
 # cinder/volume/iscsi.py: iscsi_helper '--op' ...
 tgtadm: CommandFilter, tgtadm, root
 ````
-When ``rootwrap`` is been executed, the program will parse the config file, load the filters and valid the input command at the very begining,and then create a sub-process to execute the command.
+When ``rootwrap`` is executed, the program will parse the config file, load the filters and valid the input command at the very beginning, and then create a sub-process to execute the command.
 
 Based on the process above, we could find the disadvantage of rootwrap:
 
@@ -91,25 +91,28 @@ Rootwrap team has tried to improve the efficiency by adding the
 
 ## Oslo.privsep
 
-Privsep is designed based on the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). It provides a fine-grained security control by Linux Capabilities rather than run the process as a superuser directly, and the client communicate with the privileged daemon through ``unix domain socket``, which is better than command line.
+Privsep is designed based on the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege). It provides a fine-grained security control by Linux Capabilities rather than run the process as a superuser directly, and the client communicates with the privileged daemon through ``unix domain socket``, which is better than the command line.
 
 ### Linux capabilities
 
 The feature is added since kernel 2.2, linux divides the privileges traditionally associated with superuser into distinct units, known as capabilities, which can be independently enabled and disabled.  It's a per-thread attribute. 
 Each thread has three capability sets containing zero or more of the capabilities.
-1. **Permitted**: This is a limiting superset for the effective capabilities that the thread may assume.
+1. **Permitted**: This is a limiting superset of the effective capabilities that the thread may assume.
 2. **Inheritable**: This is a set of capabilities preserved across an ``execve``. Inheritable capabilities remain inheritable when executing any program, and inheritable capabilities are added to the permitted set when executing a program that has the corresponding bits set in the file inheritable set.
 3. **Effective**: This is the set of capabilities used by the kernel to perform permission checks for the thread.
 
-There are a various capabilities defined at the [linux man page](http://man7.org/linux/man-pages/man7/capabilities.7.html). For instance, ``CAP_SYS_ADMIN`` is used as the default capability for library [os_brick](https://github.com/openstack/os-brick)'s privsep daemon. It can provide a range of permissions including perfoming a range of system administration operations (quotactl, mount, umount,swapon, setdomainname).
+There are various capabilities defined at the [linux man page](http://man7.org/linux/man-pages/man7/capabilities.7.html). For instance, ``CAP_SYS_ADMIN`` is used as the default capability for library [os_brick](https://github.com/openstack/os-brick)'s privsep daemon. It can provide a range of permissions including performing a range of system administration operations (quotactl, mount, umount,swapon, setdomainname).
 We can diagnose process's capabilities by libcap (sudo aget-get install libcap-dev & getpcaps <PID>) library, this below is the nova-compute's capabilities:
 ```
-Capabilities for `39036': = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,37+ep
+Capabilities for `39036': = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,
+cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,
+cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,
+cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,37+ep
 ```
 
 ### Using oslo.privsep
 
-When using privsep in our service, we need to define the priveleged context and then use it as a decorator on our command execute code.
+When using privsep in our service, we need to define the privileged context and then use it as a decorator on our command execute code.
 
 #### Define privsep context
 ```python 
@@ -120,7 +123,7 @@ default = priv_context.PrivContext(
     capabilities=[c.CAP_SYS_ADMIN],
 ).
 ```
-By this code, we defined the configure section which will be used to initialize the deamon in the future and assign it within the required capabilities.  The configuration options are below:
+By this code, we defined the configure section which will be used to initialize the daemon in the future and assign it within the required capabilities.  The configuration options are below:
 ```
 [privsep_osbrick]
 user = novapriv
@@ -128,7 +131,7 @@ group = novapriv
 # This will overwrite the default capabilitie those are specified in the initialize code.
 capabilities = CAP_SYS_ADMIN, CAP_NET_ADMIN 
 ```
-When we execute the privelged command through privsep for the first time, privsep will start up the daemon process with the user, group and
+When we execute the privileged command through privsep for the first time, privsep will start up the daemon process with the user, group and
 capabilities.
 
 ### Use the privsep context
@@ -170,7 +173,5 @@ and
         else:
             return func(*args, **kwargs)
 ```
-With the transformation of the decorator any execute commands are been passed to the privsep daemon through ``linxu domain socket``. The daemon
+With the transformation of the decorator, any execute commands are been passed to the privsep daemon through ``linxu domain socket``. The daemon
 will keep listening to the socket, executing the client's commands until the parent process exits.
-
-
