@@ -17,9 +17,9 @@ Karbor is a data proection orchestration as a service in OpenStack. To protect t
 
 ![karbor-logo](https://wiki.openstack.org/w/images/e/e7/OpenStack_Project_Karbor.png)
 
-The karbor provide a plug-in mechanism to integrate and orchestrate existing vendor and open source resources protection solutions.The kubernetes cluster can run on openstack instances using Openstack cloud provider, the pods can be created with persistent volumes provided by Cinder. 
+The karbor provides a plug-in mechanism to integrate and orchestrate existing vendor and open source resources protection solutions. The kubernetes cluster can run on openstack instances using Openstack cloud provider, the pods can be created with persistent volumes provided by Cinder.
 
-When we want to get the pods from the kubernetes in Karbor, we need define a new resoure type 'OS::Kubernetes::Pod'. We need develop a new protectable plugin for this resource type. The volumes provided by Cinder can be mounted to the pod. We can say the mounted vloumes are the sub-resources of this pod in Karbor. We can define the dependency between the pod and volume protectables in the default distribution of Karbor. 
+When we want to get the pods from the kubernetes in Karbor, we need define a new resoure type 'OS::Kubernetes::Pod'. We need develop a new protectable plugin for this resource type. The volumes provided by Cinder can be mounted to the pod. We can say the mounted volumes are the sub-resources of this pod in Karbor. We can define the dependency between the pod and volume protectables in the default distribution of Karbor. 
 
 When we want to protect the pod of the kubernetes, we need develop a new protection plugin for the reouse type 'OS::Kubernetes::Pod'. In this plugin, the configurations and metadata in etcd service about the pods can be backuped and restored. We have the protection plugins about the volume in Karbor already. We don't need develop a new plugin to protect the mounted volumes of the pod.
 
@@ -29,7 +29,7 @@ When the pod with mounted volumes being protected, the workflow engine of karbor
 ## The pod protectable plugin in Karbor
 
 The protectable plugin is responsible for the implementation of getting a type of protectable
-element which Karbor can protect. Most prominently OpenStack resources (volume, project, server, pod,etc). The actual instance of protectable element is named Resource. The Protectable Plugin about one type resource defines what types resource it depend on. It defines the dependency between
+element which Karbor can protect. Most prominently OpenStack resources (volume, project, server, pod, etc). The actual instance of protectable element is named Resource. The Protectable Plugin about one type resource defines what types resource it depends on. It defines the dependency between
 different resource type in the default distribution of Karbor.
 
 The Karbor code-base has a python API that corresponds to the set of API calls
