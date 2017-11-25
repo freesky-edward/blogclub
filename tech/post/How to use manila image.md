@@ -1,19 +1,17 @@
+# How to use manila image in devstack pike version
 
+The environment is pike release openstack that built by devstack [1].
 
-How to use manila image in devstack pike version
-
-The environment is pike release openstack that build by devstack [1].
-
-1. Add the manila image into glance
-We can get manila-service-image.qcow2 from tarballs (https://tarballs.openstack.org/manila-image-elements/images/)
+## 1. Add the manila image to glance
+We can get manila-service-image.qcow2 from [tarballs](https://tarballs.openstack.org/manila-image-elements/images/)
 or build image from manila-image-elements code
 glance image-create --name "manila-service-image" --file manila-service-image.qcow2 --disk-format qcow2 --container-format bare --visibility public
 
-2. Create an instance by image
+## 2. Create an instance by image
 nova flavor-list
 nova boot --flavor d1   --image  f4bb472c-2e52-49e5-a6b5-41a3ff8c7b86  zjinstance
 
-3. Check the status of the instance
+## 3. Check the status of the instance
 root@instance-4:/opt/stack/tempest# nova list
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
 | ID                                   | Name       | Status | Task State | Power State | Networks                       |
@@ -21,10 +19,10 @@ root@instance-4:/opt/stack/tempest# nova list
 | 1b2f1d4e-6503-4660-923d-fdce5b7d9d2e | zjinstance | ACTIVE | -          | Running     | public=2001:db8::3, 172.24.4.5 |
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
 
-Then I run "ssh manila@172.24.4.5" try to login the instance, but it doesn't work
+Then I run "ssh manila@172.24.4.5", and try to login the instance, but it doesn't work.
 
 
-4. So I login instance from console link, and check if the ip is configed in instance.
+## 4. So I login instance from console link, and check if the ip is configured in instance.
 After login instance and run "ifconfig", I find this isn't have "172.24.4.5" in instance.
 root@instance-4:/opt/stack/tempest# nova get-vnc-console  1b2f1d4e-6503-4660-923d-fdce5b7d9d2e novnc
 +-------+---------------------------------------------------------------------------------+
@@ -41,14 +39,14 @@ If the "enable_dhcp" is set equal to false，the system can not automatic create
 So we need to config ip for instance.
 
 
-5.  Add 172.24.4.5 ip into instance.
+## 5.  Add 172.24.4.5 ip into instance.
 
 $ sudo ifonfig ens3 172.24.4.5 up
 
 
 Then I run "ssh manila@172.24.4.5" try to login the instance, but it still doesn't work
 
-6. Check wheather we config the seucrity-group for instance
+## 6. Check wheather we config the seucrity-group for instance
 root@instance-4:/opt/stack/tempest# neutron port-list | grep 4.5
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
 | 0e903be6-31e5-4ed8-9d40-7bd146de6b55 |      | e87f0f23d8994de8b317d62764733fff | fa:16:3e:3a:34:15 | {"subnet_id": "ec455e1c-b75a-4b09-b327-cbe84d7a8b6d", "ip_address": "fd83:177a:6d37::1"}                    |
@@ -96,7 +94,7 @@ neutron CLI is deprecated and will be removed in the future. Use openstack CLI i
 | updated_at            | 2017-09-26T07:01:31Z                                                               |
 +-----------------------+------------------------------------------------------------------------------------+
 
-7.  Add seucrity-group 
+## 7.  Add seucrity-group 
 
 root@instance-4:/opt/stack/tempest# neutron security-group-rule-create a5a6d1b7-7762-44bd-ba6c-e3d719e4d02e --protocol tcp --port-range-min 22 --port-range-max 22 --direction ingress
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
@@ -121,7 +119,7 @@ Created a new security_group_rule:
 | updated_at        | 2017-09-26T08:12:36Z                 |
 +-------------------+--------------------------------------+
 
-8. It is ok, we can login our instance by ssh.
+## 8. It is ok, we can login our instance by ssh.
 root@instance-4: ssh manila@172.24.4.5
 The authenticity of host '172.24.4.5 (172.24.4.5)' can't be established.
 ECDSA key fingerprint is SHA256:bHDGJnCnW+MvZGXKagJNXAa3X4bMmNM8ssNRp10QPpA.
@@ -136,7 +134,7 @@ Welcome to Ubuntu 16.04.3 LTS (GNU/Linux 4.4.0-96-generic x86_64)
 Last login: Tue Sep 26 08:06:18 2017
 manila@ubuntu:~$ 
 
-9.  You can use Manila Shared filesystem from an Instance like follows.
+## 9.  You can use Manila Shared filesystem from an Instance as follows.
 manila@ubuntu:~$ sudo mkdir /test
 
 We can mount a share in the instance after create a share [2].
