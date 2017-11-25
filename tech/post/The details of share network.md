@@ -47,6 +47,7 @@ ability to access the share.
 
 
 1. Get service image
+
 We are going to get the image object by glance image list api. The
 image name be got from generic driver option named ``service_image_name``.
 
@@ -102,6 +103,7 @@ in default node.
 ```
 
 3. Setup network
+
 We are going to create the service subnet under the neutron subnet within
 share network object.
 
@@ -124,6 +126,7 @@ share network object.
 ```
 
 4. Get private router
+
 Find a private router object by the subnet id and the subnet gateway ip.
 The subnet which is existing in the share network.
 
@@ -160,7 +163,8 @@ If we also have config options which include admin_network_id and admin_subnet_i
 We also have to create a new port for admin network.
 
 
-6. Setup connectivity with service instances
+5. Setup connectivity with service instances
+
 We are going to use OVSInterface (manila.network.linux.interface.OVSInterfaceDriver)
 to creates host port in service network and/or admin network, creating and setting
 up required network devices.
@@ -168,7 +172,8 @@ up required network devices.
 If you have to change the interface driver to set up required network devices,
 you could change the "interface_driver" option value.
 
-7. Creates server instance
+6. Creates server instance
+
 Create a share server with the network that you already created in the above
 steps. It means you are going to create a nova VM as your share server.
 
@@ -184,15 +189,14 @@ steps. It means you are going to create a nova VM as your share server.
         **create_kwargs)
 ```
 
-8. Creates security group
+7. Creates security group
 
 Get or create security group for service instance. The security group is
 configured in ``service_instance_security_group`` option. If it has no value.
 It will create a new security group for service instance.
 
+8. Add security group to server instance
 
-
-9. Add security group to server instance
 Then we will add security group to server instance in order to let manila share
 service can access to share instance.
 
@@ -201,7 +205,8 @@ self.compute_api.add_security_group_to_server(
                     context, service_instance["id"], sg_id)
 ```
 
-10. Creates share
+9. Creates share
+
 Since we already have the share instance, we can create a share with share network.
 
 We are going to create a cinder volume by cinder api, and attach cinder
