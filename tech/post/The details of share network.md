@@ -1,4 +1,4 @@
-# The details of share network in manila
+# What's the details of share network in manila
 
 # What's the DHSS in manila
 
@@ -46,7 +46,7 @@ directly use the path of the volume mount to any other instances which has the
 ability to access the share.
 
 
-## 1. Get service image
+1. Get service image
 We are going to get the image object by glance image list api. The
 image name be got from generic driver option named ``service_image_name``.
 
@@ -58,7 +58,7 @@ image name be got from generic driver option named ``service_image_name``.
                   if image.name == service_image_name]
 ```
 
-2). Import the key pair by nova API in order to access your instance if the instance
+2. Import the key pair by nova API in order to access your instance if the instance
 doesn't have the password at initialization.
 The key pair path is configed in ``path_to_public_key`` and
 ``path_to_private_key`` option by back end node.
@@ -101,7 +101,7 @@ in default node.
         return keypair.name, path_to_private_key
 ```
 
-3). Setup network
+3. Setup network
 We are going to create the service subnet under the neutron subnet within
 share network object.
 
@@ -123,7 +123,7 @@ share network object.
                         subnet_name, self._get_cidr_for_subnet()))
 ```
 
-4). Get private router
+4. Get private router
 Find a private router object by the subnet id and the subnet gateway ip.
 The subnet which is existing in the share network.
 
@@ -160,7 +160,7 @@ If we also have config options which include admin_network_id and admin_subnet_i
 We also have to create a new port for admin network.
 
 
-6). Setup connectivity with service instances
+6. Setup connectivity with service instances
 We are going to use OVSInterface (manila.network.linux.interface.OVSInterfaceDriver)
 to creates host port in service network and/or admin network, creating and setting
 up required network devices.
@@ -201,7 +201,7 @@ self.compute_api.add_security_group_to_server(
                     context, service_instance["id"], sg_id)
 ```
 
-## 10. Creates share
+10. Creates share
 Since we already have the share instance, we can create a share with share network.
 
 We are going to create a cinder volume by cinder api, and attach cinder
