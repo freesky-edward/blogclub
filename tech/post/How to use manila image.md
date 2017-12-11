@@ -5,16 +5,19 @@ The environment is pike release openstack that built by devstack [1].
 ## 1. Add the manila image to glance
 We can get manila-service-image.qcow2 from [tarballs](https://tarballs.openstack.org/manila-image-elements/images/)
 or build image from manila-image-elements code
+```bash
 glance image-create --name "manila-service-image" --file manila-service-image.qcow2 --disk-format qcow2 --container-format bare --visibility public
+```
 
 ## 2. Create an instance by image
+```bash
 nova flavor-list
 nova boot --flavor d1   --image  f4bb472c-2e52-49e5-a6b5-41a3ff8c7b86  zjinstance
+```
 
 ## 3. Check the status of the instance
-
-root@instance-4:/opt/stack/tempest# nova list
 ```bash
+root@instance-4:/opt/stack/tempest# nova list
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
 | ID                                   | Name       | Status | Task State | Power State | Networks                       |
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
@@ -27,8 +30,9 @@ Then I run "ssh manila@172.24.4.5", and try to login the instance, but it doesn'
 
 ## 4. So I login instance from console link, and check if the ip is configured in instance.
 After login instance and run "ifconfig", I find this isn't have "172.24.4.5" in instance.
-root@instance-4:/opt/stack/tempest# nova get-vnc-console  1b2f1d4e-6503-4660-923d-fdce5b7d9d2e novnc
+
 ```bash
+root@instance-4:/opt/stack/tempest# nova get-vnc-console  1b2f1d4e-6503-4660-923d-fdce5b7d9d2e novnc
 +-------+---------------------------------------------------------------------------------+
 | Type  | Url                                                                             |
 +-------+---------------------------------------------------------------------------------+
@@ -52,9 +56,9 @@ $ sudo ifonfig ens3 172.24.4.5 up
 Then I run "ssh manila@172.24.4.5" try to login the instance, but it still doesn't work
 
 ## 6. Check wheather we config the seucrity-group for instance
+```bash
 root@instance-4:/opt/stack/tempest# neutron port-list | grep 4.5
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
-```bash
 | 0e903be6-31e5-4ed8-9d40-7bd146de6b55 |      | e87f0f23d8994de8b317d62764733fff | fa:16:3e:3a:34:15 | {"subnet_id": "ec455e1c-b75a-4b09-b327-cbe84d7a8b6d", "ip_address": "fd83:177a:6d37::1"}                    |
 | 171f08c9-70ad-4bdf-bbbf-d12be2aa4abe |      | e87f0f23d8994de8b317d62764733fff | fa:16:3e:48:e7:fa | {"subnet_id": "8eafdb1f-7f24-438a-9fe5-d485f655d0bf", "ip_address": "10.0.0.2"}                             |
 |                                      |      |                                  |                   | {"subnet_id": "ec455e1c-b75a-4b09-b327-cbe84d7a8b6d", "ip_address": "fd83:177a:6d37:0:f816:3eff:fe48:e7fa"} |
@@ -66,11 +70,9 @@ neutron CLI is deprecated and will be removed in the future. Use openstack CLI i
 |                                      |      |                                  |                   | {"subnet_id": "f4f5d9b7-068c-48bb-b6c8-30583753d200", "ip_address": "10.254.0.2"}                           |
 | c8d6c7a6-5aa9-440a-9902-bfdf4550a88f |      | e87f0f23d8994de8b317d62764733fff | fa:16:3e:8d:de:d3 | {"subnet_id": "8eafdb1f-7f24-438a-9fe5-d485f655d0bf", "ip_address": "10.0.0.1"}                             |
 | f14ccd40-e571-4daf-957c-8a00fc534f33 |      | 4901985e873b4984af8d22a60f7b15f3 | fa:16:3e:d2:8b:02 | {"subnet_id": "f4f5d9b7-068c-48bb-b6c8-30583753d200", "ip_address": "10.254.0.11"}                          |
-```
 
 root@instance-4:/opt/stack/tempest# neutron port-show 93577ead-d78b-429b-bfac-f5b49eb8d456
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
-```bash
 +-----------------------+------------------------------------------------------------------------------------+
 | Field                 | Value                                                                              |
 +-----------------------+------------------------------------------------------------------------------------+
@@ -104,11 +106,10 @@ neutron CLI is deprecated and will be removed in the future. Use openstack CLI i
 ```
 
 ## 7.  Add seucrity-group 
-
+```bash
 root@instance-4:/opt/stack/tempest# neutron security-group-rule-create a5a6d1b7-7762-44bd-ba6c-e3d719e4d02e --protocol tcp --port-range-min 22 --port-range-max 22 --direction ingress
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
 Created a new security_group_rule:
-```bash
 +-------------------+--------------------------------------+
 | Field             | Value                                |
 +-------------------+--------------------------------------+
