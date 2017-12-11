@@ -1,13 +1,13 @@
 # Affinity and AntiAffinity
 
-## 1. User Cases
+## 1. Use Cases
 
 In most cases, Kubernetes will assign the Pods to Nodes by the Scheduler automaticlly.
 But in some special scenarios, the users expect to run some Pods in the particular Nodes.
 For example, the users want to specify some Pods to run in the Nodes which have SSD,
 or specify some kinds of Pods to run in the same Nodes or Zones together.
-Kubernetes provides multiple ways to match these User Cases.
-Affinity and AntiAffinity are that way for the Kubernetes users.
+Kubernetes provides multiple ways to match these Use Cases.
+Affinity and AntiAffinity is one of the ways in Kubernetes.
 The examples are provided as following.
 
 ## 2. Node Selector
@@ -19,7 +19,7 @@ The users may add labels for the Nodes by the below Commands.
 
 ### Commands
 
-* ```kubectl label nodes [node-name] [label-key]=[label-value]```
+* ```kubectl label nodes [nodename] [label-key]=[label-value]```
 
   This command is used to add labels for Nodes.
 
@@ -27,7 +27,7 @@ The users may add labels for the Nodes by the below Commands.
 
 * ```kubectl get nodes [nodename] --show-labels```
 
-  This command may show the labels in all Nodes or specified nodename Node.
+  This command may show the labels in all Nodes or Nodes which are labeled by specific ```nodename```.
 
   The labels are shown like below:
 
@@ -47,7 +47,7 @@ The users may add labels for the Nodes by the below Commands.
 
   ```nodeSelector``` lists kinds of key-values,
   and if the Nodes satisfy all of these key-values,
-  the Pods will be scheduled on these Nodes.
+  the Pods will be scheduled onto one of these Nodes.
   and in this example, the matched Nodes must have labels ```disktype``` and ```zone```,
   and the label values must be ```ssd``` and ```nova``` respectively.
 
@@ -69,13 +69,13 @@ The users may add labels for the Nodes by the below Commands.
   ```
 
 Node Selector will be deprecated in the future version,
-Because Node Affinity and Node AntiAffinity can replace what Node Selector can express.
+because Node Affinity and Node AntiAffinity can replace what Node Selector can express.
 
 ## 3. Node Affinity and Node AntiAffinity
 
 * [Refer Node Affinity Design](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/nodeaffinity.md)
 
-The Affinity and AntiAffinity features expand the constraints for Scheduing the users can use.
+The Affinity and AntiAffinity features expand the constraints for Scheduling the users can use.
 The Node Affinity and Node AntiAffinity are designed for comparing Affinity in Pod Spec with Node lables.
 As the above intruduced Node Selector, the Node Affinity and Node AntiAffinity enhance this feature.
 Node Selector uses the ```Equal``` operator to match the rules, and in the Node Affinity and Node AntiAffinity,
@@ -116,7 +116,7 @@ Priorities Rule in the Scheduler
 
 * NodeAffinityPriority
 
-  NodeAffinityPriority implements ```preferresDuringSchedulingIngnoredDuringExecution``` Node Affinity.
+  NodeAffinityPriority implements ```preferredDuringSchedulingIngnoredDuringExecution``` Node Affinity.
 
 Actually the Kuberentes dose not define Node AntiAffinity in the official way.
 But the users may use the operators including ```NotIn``` and ```DoesNotExist```
@@ -169,8 +169,8 @@ key-value pair ```beta.kubernetes.io/os``` = ```linux```.
 
 * [Refer Pod Affinity Design](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/scheduling/podaffinity.md)
 
-Pod Affinity and Pod AntiAffinity are another kind of way to influence the Pods Scheduing.
-Pod Affinity and Pod AntiAffinity allow the users to constrain
+Pod Affinity and Pod AntiAffinity is another kind of way to influence the Pods Scheduing.
+Pod Affinity and Pod AntiAffinity allows the users to constrain
 which Nodes the Pods can be scheduled based on labels in Pods
 that have already been running on the node rather than based on labels on Nodes.
 
@@ -240,7 +240,7 @@ type PodAffinityTerm struct {
 
   TopologyKey defines the domains for Pod Affinity or Pod AntiAffinity.
 
-  Actually the topologykey is limmited by the Kubernetes Built-in Node lables as following:
+  Actually the topologykey is limited by the Kubernetes Built-in Node lables as following:
 
   * kubernetes.io/hostname
 
@@ -310,7 +310,7 @@ The Pod AntiAffinity rule says that the Pod will try not to be scheduled into a 
 if the Node has the same label ```kubernetes.io/hostname```,
 which has at least one already running Pod that has a Pod label with key-value ```alias``` in ```edison```.
 
-Because ```PodA``` itself has a label with key-value ```alias``` = ```edison``.
+Because ```PodA``` itself has a label with key-value ```alias``` = ```edison```.
 So this rule means that ```AppA``` is Affinity each other in the same Zone,
 and is AntiAffinity each other in the same Node.
 
