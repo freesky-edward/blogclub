@@ -28,8 +28,8 @@ root@instance-4:/opt/stack/tempest# nova list
 Then I run "ssh manila@172.24.4.5", and try to login the instance, but it doesn't work.
 
 
-## 4. So I login instance from console link, and check if the ip is configured in instance.
-After login instance and run "ifconfig", I find this isn't have "172.24.4.5" in instance.
+## 4. Is the ip configured in instance
+So I login instance from console link, and check if the ip is configured in instance.
 
 ```bash
 root@instance-4:/opt/stack/tempest# nova get-vnc-console  1b2f1d4e-6503-4660-923d-fdce5b7d9d2e novnc
@@ -39,6 +39,9 @@ root@instance-4:/opt/stack/tempest# nova get-vnc-console  1b2f1d4e-6503-4660-923
 | novnc | http://10.140.0.4:6080/vnc_auto.html?token=62baf4b9-9f3a-4352-8979-49edf75cc3cd |
 +-------+---------------------------------------------------------------------------------+
 ```
+
+After login instance by vnc console link and run "ifconfig" in instance, I find the "172.24.4.5"
+dosen't exist in instance.
 
 note::
 
