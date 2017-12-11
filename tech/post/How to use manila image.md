@@ -1,6 +1,6 @@
 # How to use manila image in devstack pike version
 
-The environment is pike release openstack that built by devstack [1].
+The environment is pike release openstack that built by [devstack](https://docs.openstack.org/devstack/latest/).
 
 ## 1. Add the manila image to glance
 We can get manila-service-image.qcow2 from [tarballs](https://tarballs.openstack.org/manila-image-elements/images/)
@@ -132,6 +132,7 @@ Created a new security_group_rule:
 ```
 
 ## 8. It is ok, we can login our instance by ssh.
+```bash
 root@instance-4: ssh manila@172.24.4.5
 The authenticity of host '172.24.4.5 (172.24.4.5)' can't be established.
 ECDSA key fingerprint is SHA256:bHDGJnCnW+MvZGXKagJNXAa3X4bMmNM8ssNRp10QPpA.
@@ -144,15 +145,15 @@ Welcome to Ubuntu 16.04.3 LTS (GNU/Linux 4.4.0-96-generic x86_64)
  * Management:     https://landscape.canonical.com
  * Support:        https://ubuntu.com/advantage
 Last login: Tue Sep 26 08:06:18 2017
-manila@ubuntu:~$ 
+```
 
 ## 9.  You can use Manila Shared filesystem from an Instance as follows.
+```bash
 manila@ubuntu:~$ sudo mkdir /test
+```
 
-We can mount a share in the instance after create a share [2].
+We can mount a share in the instance after [create a share](https://docs.openstack.org/project-install-guide/shared-file-systems/draft/post-install.html).
+```bash
 manila@ubuntu:~$ sudo mount -t nfs 172.24.4.13:/shares/share-368f94c9-9538-4329-a07a-706c8e2743b6 /test 
-
-
-[1]  https://docs.openstack.org/devstack/latest/
-[2]  https://docs.openstack.org/project-install-guide/shared-file-systems/draft/post-install.html
+```
 
