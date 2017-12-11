@@ -14,12 +14,13 @@ nova boot --flavor d1   --image  f4bb472c-2e52-49e5-a6b5-41a3ff8c7b86  zjinstanc
 ## 3. Check the status of the instance
 
 root@instance-4:/opt/stack/tempest# nova list
-
+```bash
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
 | ID                                   | Name       | Status | Task State | Power State | Networks                       |
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
 | 1b2f1d4e-6503-4660-923d-fdce5b7d9d2e | zjinstance | ACTIVE | -          | Running     | public=2001:db8::3, 172.24.4.5 |
 +--------------------------------------+------------+--------+------------+-------------+--------------------------------+
+```
 
 Then I run "ssh manila@172.24.4.5", and try to login the instance, but it doesn't work.
 
@@ -27,12 +28,13 @@ Then I run "ssh manila@172.24.4.5", and try to login the instance, but it doesn'
 ## 4. So I login instance from console link, and check if the ip is configured in instance.
 After login instance and run "ifconfig", I find this isn't have "172.24.4.5" in instance.
 root@instance-4:/opt/stack/tempest# nova get-vnc-console  1b2f1d4e-6503-4660-923d-fdce5b7d9d2e novnc
-
+```bash
 +-------+---------------------------------------------------------------------------------+
 | Type  | Url                                                                             |
 +-------+---------------------------------------------------------------------------------+
 | novnc | http://10.140.0.4:6080/vnc_auto.html?token=62baf4b9-9f3a-4352-8979-49edf75cc3cd |
 +-------+---------------------------------------------------------------------------------+
+```
 
 note::
 
@@ -67,7 +69,7 @@ neutron CLI is deprecated and will be removed in the future. Use openstack CLI i
 
 root@instance-4:/opt/stack/tempest# neutron port-show 93577ead-d78b-429b-bfac-f5b49eb8d456
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
-
+```bash
 +-----------------------+------------------------------------------------------------------------------------+
 | Field                 | Value                                                                              |
 +-----------------------+------------------------------------------------------------------------------------+
@@ -98,13 +100,14 @@ neutron CLI is deprecated and will be removed in the future. Use openstack CLI i
 | tenant_id             | 6edab66a84074e449b37d2692a52e6e1                                                   |
 | updated_at            | 2017-09-26T07:01:31Z                                                               |
 +-----------------------+------------------------------------------------------------------------------------+
+```
 
 ## 7.  Add seucrity-group 
 
 root@instance-4:/opt/stack/tempest# neutron security-group-rule-create a5a6d1b7-7762-44bd-ba6c-e3d719e4d02e --protocol tcp --port-range-min 22 --port-range-max 22 --direction ingress
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
 Created a new security_group_rule:
-
+```bash
 +-------------------+--------------------------------------+
 | Field             | Value                                |
 +-------------------+--------------------------------------+
@@ -124,6 +127,7 @@ Created a new security_group_rule:
 | tenant_id         | 6edab66a84074e449b37d2692a52e6e1     |
 | updated_at        | 2017-09-26T08:12:36Z                 |
 +-------------------+--------------------------------------+
+```
 
 ## 8. It is ok, we can login our instance by ssh.
 root@instance-4: ssh manila@172.24.4.5
