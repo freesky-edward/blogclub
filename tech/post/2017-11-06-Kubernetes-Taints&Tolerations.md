@@ -4,13 +4,13 @@
 
 Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes.
 One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints.
-Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.
+Tolerations are applied to pods, and allow the pods to be scheduled onto nodes with matching taints.
 
 ![](../images/2017-11-06-Kubernetes-Taints&Tolerations/Concept.png)
 
 Node affinity is a property of pods that attracts them to a set of nodes.
 Taints are the opposite and they allow a node to repel a set of pods.
-If Node affinity could be called by ```White List```, Taints could be called by ```Black List```.
+If Node affinity could be called as ```White List```, Taints could be called as ```Black List```.
 
 ## 2. Operations
 
@@ -23,7 +23,7 @@ The Scheduler will schedule the pods by lots of rules, including below:
 
 * PodToleratesNodeTaints: one of the predicates rules.
 
-  Judge whether Pod satisfy the conditions of node tolerance.
+  Judge whether the Pod satisfies the conditions of node tolerance.
 
 * TaintTolerationPriority: one of the priorities rules.
 
@@ -33,7 +33,7 @@ The Scheduler will schedule the pods by lots of rules, including below:
 
 Kubernetes provides two ways to add Taints for node.
 
-* Using command to add Taints.
+* Using the following command to add Taints.
 
   ```kubectl taint nodes [nodename] key=value:NoSchedule```
 
@@ -62,7 +62,7 @@ The users can use the following command to delete Taints from node.
 * NoSchedule
 
   If the Tolerations declared in the Pods don't match the Taints defined in the Node,
-  it will not allow the Pods to schedule on the Node.
+  it will not allow the Pods to be scheduled onto the Node.
 
 * PreferNoSchedule
 
@@ -72,17 +72,17 @@ The users can use the following command to delete Taints from node.
 * NoExecute
 
   If the Tolerations declared in the Pods don't match the Taints defined in the Node,
-  it will not allow the Pods to schedule on the Node.
-  If the pods have already been scheduled on the Node,
+  it will not allow the Pods to be scheduled onto the Node.
+  If the pods have already been scheduled onto the Node,
   the pods will be evicted from the node.
-  If the Tolerations decalred ```TolerationSeconds```,
+  If the Tolerations declare ```TolerationSeconds```,
   the pods will be evicted from the node after ```TolerationSeconds```.
   If the Taints is deleted before ```TolerationSeconds```,
   the pod will not be evicted.
 
 ### Tolerations
 
-Tolerations are specified for Kubernetes pods in the ```PodSpec``` like below:
+Tolerations are specified for Kubernetes pods in the ```PodSpec``` as below:
 
 ```yaml
 
@@ -112,7 +112,7 @@ The ```NoExecute``` Taints ```effect``` affects pods that are already running on
 ### Taints&Tolerations
 
 The users can define lots of Taints on Nodes and Tolerations on Pods.
-The Scheduler will remain the nodes which match the Tolerations and filter the nodes which doesn't match. The process is like this:
+The Scheduler will remain the nodes which match the Tolerations and filter the nodes which don't match. The process is like this:
 
 * One or more un-matched NoSchedule Taints
 
@@ -150,7 +150,7 @@ you can add a taint to those nodes by using the following command:
 ### Nodes with Special Hardware
 
 If you want to keep a part of nodes have special hardware,
-for example you want to prorvide GPU for AI.
+for example you want to provide GPU for AI.
 you can add a taint to the nodes that have the Special hardware.
 
 ```kubectl taint nodes [nodename] special=GPU:NoSchedule```
@@ -220,7 +220,7 @@ spec:
 
 This prevents massive pod evictions in scenarios such as the master becoming partitioned from the nodes.
 These automatically-added tolerations ensure that the default pod behavior of remaining bound for 5 minutes
-after one of these problems is detected is maintained.
+after one of these problems is detected.
 
 ### DaemonSet Pods
 
