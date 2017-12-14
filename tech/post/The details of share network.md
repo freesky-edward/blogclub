@@ -7,12 +7,13 @@ In multi-tenant environments, it is expected that file shares are
 isolated between different tenants in the data path. Achieving strong
 guarantees for data path isolation requires back end support, and cloud
 administrators can configure their deployments to provide such isolation.
-We create a option named "driver_handles_share_servers" (DHSS) which
-defines the mode that back end drivers operate.
+We create an option named "driver_handles_share_servers" (DHSS) which
+defines the mode that back end drivers support.
 
-# Create share with DHSS CLI
+# Create share with DHSS by CLI
 
-https://docs.openstack.org/mitaka/install-guide-ubuntu/launch-instance-manila-dhss-true-option2.html
+We could reference to official way to create a share with DHSS by [CLI]
+(https://docs.openstack.org/mitaka/install-guide-ubuntu/launch-instance-manila-dhss-true-option2.html)
 
 
 # Enviroment
@@ -22,6 +23,7 @@ with private network.
 
 Config in generic
 
+```
 [generic1]
 admin_subnet_id = 2c745913-7766-45b3-abfc-33a527e5185b
 admin_network_id = dd07dbd2-cb02-4ef3-a8c0-5b3e75013c92
@@ -33,11 +35,11 @@ path_to_private_key = /opt/stack/.ssh/id_rsa
 path_to_public_key = /opt/stack/.ssh/id_rsa.pub
 share_backend_name = GENERIC1
 share_driver = manila.share.drivers.generic.GenericShareDriver
-
+```
 
 # Details about network
 
-In creating the share workflow. We are going to create a instance as
+In creating the share workflow. We are going to create an instance as
 the infrastructure for share server. The share server used for isolated the
 network of the share. After the share verver has been created, we are going
 to mount a cinder volume to that instance, the cinder volume which is going
@@ -49,7 +51,7 @@ ability to access the share.
 1. Get service image
 
 We are going to get the image object by glance image list api. The
-image name be got from generic driver option named ``service_image_name``.
+image name is defined in generic driver option: ``service_image_name``.
 
 ```python
     def _get_service_image(self, context):
