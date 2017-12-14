@@ -12,8 +12,8 @@ defines the mode that back end drivers support.
 
 # Create share with DHSS by CLI
 
-We could reference to official way to create a share with DHSS by [CLI]
-(https://docs.openstack.org/mitaka/install-guide-ubuntu/launch-instance-manila-dhss-true-option2.html)
+We could reference to official way to create a share with DHSS by
+[CLI] (https://docs.openstack.org/mitaka/install-guide-ubuntu/launch-instance-manila-dhss-true-option2.html)
 
 
 # Enviroment
