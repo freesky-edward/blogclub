@@ -33,11 +33,11 @@ which supports using the ```initContainers``` field in Pod Spec.
 The Beta version supporting ```annotations``` field will still be respected
 and overrides the ```initContainers``` field value for upgrade and downgrade,
 however they are deprecated in Kubernetes 1.6 and 1.7.
-In Kubernetes 1.8 or greater, the ```annotations`` are no longer supported
+In Kubernetes 1.8 or greater, the ```annotations``` are no longer supported
 and must be converted to the PodSpec field.
 
 Normally in Kubernetes the Alpha and Beta feature
-will be implemented by adding values into ```annotations``.
+will be implemented by adding values into ```annotations```.
 When the feature become Official, it will have independent field like Init Containers.
 
 * Pod Spec supporting ```annotations```:
