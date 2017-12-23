@@ -110,11 +110,11 @@ The users could apply for the following use cases and so on.
 
   For example, If the users have two App Containers,
   one is Web Server, and the other one is Database.
-  and the Web Server application need to visit Database application.
+  and the Web Server application needs to visit Database application.
   At this time the users can add an Init Container in the Web Server Pod.
   This Init Container will check whether the Database application is ready.
   Until the Database application is available, the Init Container is exited
-  and the Web Server application could send an normal Database connection request.
+  and the Web Server application could send a normal Database connection request.
 
 ## 4. Example
 
